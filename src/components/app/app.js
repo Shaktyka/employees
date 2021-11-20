@@ -1,9 +1,10 @@
 import './app.css';
+import AppInfo from '../app-info/app-info';
 
 const App = () => {
   return (
     <div className="app">
-      Привет!
+      <AppInfo />
     </div>
   );
 }
