@@ -2,7 +2,7 @@ import EmployeeItem from "../employee-item/employee-item";
 
 import './employees-list.css';
 
-const EmployeesList = ({data}) => {
+const EmployeesList = ({data, onDelete}) => {
     return (
         <ul className="app-list list-group">
             {
@@ -10,8 +10,9 @@ const EmployeesList = ({data}) => {
                     const {id, ...itemProps} = item;
 
                     return <EmployeeItem 
-                            key={id} 
-                            {...itemProps}
+                                onDelete={() => onDelete(id)}
+                                key={id} 
+                                {...itemProps}
                             />;
                 })
             }
