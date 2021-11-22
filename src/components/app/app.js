@@ -13,19 +13,22 @@ const data = [
       id: 1,
       name: 'Вася П.',
       salary: 300,
-      increase: true
+      increase: false,
+      like: true
     },
     {
       id: 2,
       name: 'Миша Ф.',
       salary: 700,
-      increase: false
+      increase: true,
+      like: false
     },
     {
       id: 3,
       name: 'Маша И.',
       salary: 1000,
-      increase: false
+      increase: false,
+      like: false
     }
 ];
 
@@ -33,9 +36,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        data: data,
-        nextId: this.state.data.length() + 1
+        data: data
     }
+    this.maxId = 3
   }
 
   deleteItem = (id) => {
@@ -44,6 +47,49 @@ class App extends Component {
           data: data.filter((item) => item.id !== id)
         }
       });
+  }
+
+  addItem = (name, salary) => {
+    const newItem = {
+      id: this.maxId + 1,
+      name,
+      salary,
+      increase: false,
+      like: false
+    };
+
+    this.setState(({data}) => {
+        const newArr = [...data, newItem];
+        return {
+          data: newArr
+        }
+    })
+  }
+
+  onToggleIncrease = (id) => {
+    /* 1 способ:
+    this.setState(({data}) => {
+        const index = data.findIndex((elem) => elem.id === id);
+        const old = data[index];
+        const newItem = {...old, increase: !old.increase};
+        const newArr = [...data.slice(0,index), newItem, ...data.slice(index + 1)];
+        return {
+          data: newArr
+        }
+    })
+    */
+    this.setState(({data}) => ({
+      data: data.map((item) => {
+        if (item.id === id) {
+          return {...item, increase: !item.increase} 
+        }
+        return item;
+      })
+    }))
+  }
+
+  onToggleLike = (id) => {
+    console.log(id);
   }
 
   render() {
@@ -60,9 +106,13 @@ class App extends Component {
         <EmployeesList 
           data={this.state.data} 
           onDelete={this.deleteItem}
+          onToggleIncrease={this.onToggleIncrease}
+          onToggleLike={this.onToggleLike}
         />
   
-        <EmployeeAddForm />
+        <EmployeeAddForm
+          onAdd={this.addItem}
+        />
       </div>
     );
   }
