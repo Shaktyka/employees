@@ -38,7 +38,8 @@ class App extends Component {
     this.state = {
         data: data
     }
-    this.maxId = 3
+    this.maxId = 3;
+    this.companyName = 'WorkShop';
   }
 
   deleteItem = (id) => {
@@ -66,7 +67,7 @@ class App extends Component {
     })
   }
 
-  onToggleIncrease = (id) => {
+  onToggleProp = (id, prop) => {
     /* 1 способ:
     this.setState(({data}) => {
         const index = data.findIndex((elem) => elem.id === id);
@@ -81,22 +82,40 @@ class App extends Component {
     this.setState(({data}) => ({
       data: data.map((item) => {
         if (item.id === id) {
-          return {...item, increase: !item.increase} 
+          return {...item, [prop]: !item[prop]} 
         }
         return item;
       })
     }))
   }
 
+  /*
   onToggleLike = (id) => {
-    console.log(id);
+    this.setState(({data}) => ({
+      data: data.map((item) => {
+        if (item.id === id) {
+          return {...item, like: !item.like} 
+        }
+        return item;
+      })
+    }))
   }
+  */
 
   render() {
 
+    const companyName = this.companyName;
+    const employees = this.state.data.length;
+    const employeesForBonus = this.state.data
+      .filter((item) => item.increase === true).length;
+
     return (
       <div className="app">
-        <AppInfo />
+        <AppInfo
+            companyName={companyName}
+            allCount={employees}
+            bonusCount={employeesForBonus}
+        />
   
         <div className="search-panel">
           <SearchPanel />
@@ -106,8 +125,7 @@ class App extends Component {
         <EmployeesList 
           data={this.state.data} 
           onDelete={this.deleteItem}
-          onToggleIncrease={this.onToggleIncrease}
-          onToggleLike={this.onToggleLike}
+          onToggleProp={this.onToggleProp}
         />
   
         <EmployeeAddForm
