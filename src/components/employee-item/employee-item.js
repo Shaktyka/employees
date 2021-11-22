@@ -30,10 +30,14 @@ const EmployeeItem = (props) => {
     classNames = like ? classNames + ' like' : classNames;
 
     return (
-        <li className={classNames} id={id} data-toggle="like">
-            <span 
-                onClick={onToggleProp}
+        <li 
+          className={classNames} 
+          id={id} 
+        >
+            <span
                 className="list-group-item-label"
+                data-toggle="like" 
+                onClick={onToggleProp}
             >
                 {name}
             </span>

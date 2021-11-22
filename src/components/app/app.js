@@ -50,6 +50,10 @@ class App extends Component {
       });
   }
 
+  increaseMaxId = () => {
+    this.maxId = this.maxId + 1
+  }
+
   addItem = (name, salary) => {
     const newItem = {
       id: this.maxId + 1,
@@ -65,6 +69,8 @@ class App extends Component {
           data: newArr
         }
     })
+
+    this.increaseMaxId();
   }
 
   onToggleProp = (id, prop) => {
