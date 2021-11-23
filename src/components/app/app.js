@@ -37,10 +37,12 @@ class App extends Component {
     super(props);
     this.state = {
         data: data,
-        term: ''
+        term: '',
+        filter: 'all'
     }
     this.maxId = 3;
     this.companyName = 'WorkShop';
+    this.maxSalaryFilter = 1000;
   }
 
   deleteItem = (id) => {
@@ -123,14 +125,31 @@ class App extends Component {
     this.setState({term});
   }
 
+  filterItems = (items, filter) => {
+    switch (filter) {
+      case 'like': 
+        return items.filter((item) => item.lik);
+      case 'moreThen1000':
+        return items.filter((item) => item.salary > this.maxSalaryFilter);
+      default:
+        return items;
+    }
+  }
+
+  onFilterSelect = (filter) => {
+    this.setState({
+        filter
+    });
+  }
+
   render() {
 
-    const {data, term} = this.state;
+    const {data, term, filter} = this.state;
     const companyName = this.companyName;
     const employees = this.state.data.length;
     const employeesForBonus = this.state.data
       .filter((item) => item.increase === true).length;
-    const visibleData = this.searchEmp(data, term);
+    const visibleData = this.filterItems( this.searchEmp(data, term), filter);
 
     return (
       <div className="app">
@@ -142,7 +161,10 @@ class App extends Component {
   
         <div className="search-panel">
           <SearchPanel onUpdateSearch={this.onUpdateSearch} />
-          <AppFilter />
+          <AppFilter 
+            filter={filter}
+            onFilterSelect={this.onFilterSelect}
+          />
         </div>
   
         <EmployeesList 
