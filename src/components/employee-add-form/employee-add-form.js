@@ -8,6 +8,7 @@ class EmployeeAddForm extends Component {
             name: '',
             salary: ''
         }
+        this.maxNameLength = 3
     }
 
     onValueChange = (evt) => {
@@ -27,7 +28,8 @@ class EmployeeAddForm extends Component {
         evt.preventDefault();
         const {onAdd} = this.props;
 
-        if (this.state.name.length > 3 && this.state.salary !== '') {
+        if (this.state.name.length > this.maxNameLength 
+            && this.state.salary !== '') {
             onAdd(this.state.name, this.state.salary);
             this.resetForm();
         }
