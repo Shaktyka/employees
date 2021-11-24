@@ -38,6 +38,7 @@ const EmployeeItem = (props) => {
                 className="list-group-item-label"
                 data-toggle="like" 
                 onClick={onToggleProp}
+                tabIndex="0"
             >
                 {name}
             </span>
